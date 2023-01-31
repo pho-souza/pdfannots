@@ -1,5 +1,6 @@
 import datetime
 import typing as typ
+import colorsys
 
 CHARACTER_SUBSTITUTIONS = {
     'ﬀ': 'ff',
@@ -14,6 +15,7 @@ CHARACTER_SUBSTITUTIONS = {
     '…': '...',
 }
 
+DEFAULT_COLOR = (1,1,0)
 
 def cleanup_text(text: str) -> str:
     """
@@ -80,3 +82,49 @@ def decode_datetime(dts: str) -> typ.Optional[datetime.datetime]:
         except ValueError:
             continue
     return None
+
+def convert_to_hls(colors: tuple) -> tuple:
+    """
+    This function convert rgb colors to hsv color pattern
+    
+    """
+    colors_return = []
+    if len(colors) == 3:
+        (r, g, b) = colors
+    else:
+        (r, g, b) = DEFAULT_COLOR
+    (h,l,s) = colorsys.rgb_to_hls(r,g,b)
+    return (h,l,s)
+
+def colors_names(colors_hls: tuple) -> str:
+    """
+    The colors name intervals are from mgmeyers: https://github.com/mgmeyers/pdfannots2json
+    """
+    if len(colors_hls) != 3:
+        return "none"
+    else:
+        (h,l,s) = colors_hls
+        if l < 0.12:
+            return "Black"
+        if l > 0.98:
+            return "White"
+        if s < 0.2:
+            return "Gray"
+        if h < 15/360:
+            return "Red"
+        if h < 45/360:
+            return "Orange"
+        if h < 65/360:
+            return "Yellow"
+        if h < 170/360:
+            return "Green"
+        if h < 190/360:
+            return "Cyan"
+        if h < 263/360:
+            return "Blue"
+        if h < 280/360:
+            return "Purple"
+        if h < 335/360:
+            return "Magenta"
+        return "Red"
+        

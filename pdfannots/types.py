@@ -115,13 +115,15 @@ class Page:
         objid: object,
         label: typ.Optional[str],
         mediabox: BoxCoords,
-        fixed_columns: typ.Optional[int] = None
+        fixed_columns: typ.Optional[int] = None,
+        color: typ.Optional[tuple] = (0,0,0)
     ):
         assert pageno >= 0
         assert fixed_columns is None or fixed_columns > 0
         self.pageno = pageno
         self.objid = objid
         self.label = label
+        self.color = color
         self.annots = []
         self.outlines = []
         self.mediabox = Box.from_coords(mediabox)
@@ -297,7 +299,9 @@ class Annotation(ObjectWithPos):
             rect: typ.Optional[BoxCoords] = None,
             contents: typ.Optional[str] = None,
             author: typ.Optional[str] = None,
-            created: typ.Optional[datetime.datetime] = None):
+            created: typ.Optional[datetime.datetime] = None,
+            color: typ.Optional[tuple] = None,
+            color_name: typ.Optional[str] = None):
 
         # Construct boxes from quadpoints
         boxes = []
@@ -328,6 +332,8 @@ class Annotation(ObjectWithPos):
         self.post_context = None
         self.boxes = boxes
         self.last_charseq = 0
+        self.color = color
+        self.color_name = color_name
 
     def __repr__(self) -> str:
         return ('<Annotation %s %r%s%s>' %

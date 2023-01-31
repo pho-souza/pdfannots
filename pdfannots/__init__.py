@@ -82,6 +82,14 @@ def _mkannotation(
     if author is not None:
         author = pdfminer.utils.decode_text(author)
 
+    # Get highlight color
+    color = pa.get('C')
+
+    # Set colors name
+    color_hsl = utils.convert_to_hls(color)
+    color_name = utils.colors_names(color_hsl)
+
+
     created = None
     dobj = pa.get('CreationDate')
     # some pdf apps set modification date, but not creation date
@@ -94,7 +102,8 @@ def _mkannotation(
         created = decode_datetime(createds)
 
     return Annotation(page, annot_type, quadpoints, rect,
-                      contents, author=author, created=created)
+                      contents, author=author, created=created,
+                      color = color,color_name=color_name)
 
 
 def _get_outlines(doc: PDFDocument) -> typ.Iterator[Outline]:
@@ -371,7 +380,7 @@ def process_file(
     for (pageno, pdfpage) in enumerate(PDFPage.create_pages(doc)):
         emit_progress(" %d" % (pageno + 1))
 
-        page = Page(pageno, pdfpage.pageid, pdfpage.label, pdfpage.mediabox, columns_per_page)
+        page = Page(pageno, pdfpage.pageid, "pdfpage.label", pdfpage.mediabox, columns_per_page)
         result.pages.append(page)
 
         # Resolve any outlines referring to this page, and link them to the page.

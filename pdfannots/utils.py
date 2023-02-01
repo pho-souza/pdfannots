@@ -85,11 +85,10 @@ def decode_datetime(dts: str) -> typ.Optional[datetime.datetime]:
 
 def convert_to_hls(colors: tuple) -> tuple:
     """
-    This function convert rgb colors to hsv color pattern
+    Convert rgb colors to hsl color pattern 
     
     """
-    colors_return = []
-    if len(colors) == 3:
+    if isinstance(colors, tuple) and len(colors) == 3:
         (r, g, b) = colors
     else:
         (r, g, b) = DEFAULT_COLOR

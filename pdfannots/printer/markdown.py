@@ -80,6 +80,7 @@ class MarkdownPrinter(Printer):
     BULLET_INDENT1 = " * "
     BULLET_INDENT2 = "   "
     QUOTE_INDENT = BULLET_INDENT2 + "> "
+    TITLE_INDENT = "# "
 
     def __init__(
         self,

@@ -1,6 +1,9 @@
 import datetime
 import typing as typ
 import colorsys
+import pathlib
+
+from jinja2 import Environment, FileSystemLoader
 
 CHARACTER_SUBSTITUTIONS = {
     'ﬀ': 'ff',
@@ -16,6 +19,17 @@ CHARACTER_SUBSTITUTIONS = {
 }
 
 DEFAULT_COLOR = (1,1,0)
+
+PATH = pathlib.Path(__file__).resolve().parent / 'templates'
+TEMPLATE_ENVIRONMENT = Environment(
+    autoescape=False,
+    loader=FileSystemLoader(str(PATH)),
+    trim_blocks=True,
+    lstrip_blocks=False
+)
+
+md_template = TEMPLATE_ENVIRONMENT.get_template("template2.md")
+
 
 def cleanup_text(text: str) -> str:
     """
@@ -83,12 +97,13 @@ def decode_datetime(dts: str) -> typ.Optional[datetime.datetime]:
             continue
     return None
 
-def convert_to_hls(colors: tuple) -> tuple:
+def convert_to_hls(colors: list) -> tuple:
     """
     Convert rgb colors to hsl color pattern 
     
     """
-    if isinstance(colors, tuple) and len(colors) == 3:
+    # print(isinstance(colors, list))
+    if isinstance(colors, list) and len(colors) == 3:
         (r, g, b) = colors
     else:
         (r, g, b) = DEFAULT_COLOR
@@ -115,15 +130,21 @@ def colors_names(colors_hls: tuple) -> str:
             return "Orange"
         if h < 65/360:
             return "Yellow"
-        if h < 170/360:
+        if h < 160/360:
             return "Green"
         if h < 190/360:
             return "Cyan"
-        if h < 263/360:
+        if h < 265/360:
             return "Blue"
         if h < 280/360:
             return "Purple"
+        if h < 320/360:
+            return "Pink"
         if h < 335/360:
             return "Magenta"
         return "Red"
         
+def md_export(annots,template = md_template):
+    retorno = template.render(title = 'Nota titulo',
+    anotacoes = annots)
+    return retorno

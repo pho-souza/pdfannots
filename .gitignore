@@ -18,4 +18,5 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
+teste_analise*
+output/

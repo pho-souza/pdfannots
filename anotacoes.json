@@ -1,0 +1,137 @@
+[
+  {
+    "type": "Squiggly",
+    "page": 1,
+    "start_xy": [
+      86.119,
+      192.378
+    ],
+    "prior_outline": "Introduction",
+    "text": "recent Intel CPUs have introduced",
+    "created": "2019-01-19T21:29:42",
+    "color": [
+      1,
+      0,
+      0
+    ],
+    "color_name": "Red"
+  },
+  {
+    "type": "Text",
+    "page": 1,
+    "start_xy": [
+      546.288,
+      421.485
+    ],
+    "prior_outline": "Background: x86 extensions",
+    "contents": "This is a note with no text attached.",
+    "created": "2019-01-19T21:29:26",
+    "color_name": "Yellow"
+  },
+  {
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      96.221,
+      447.281
+    ],
+    "prior_outline": "Background: x86 extensions",
+    "text": "TSX launched with \"Haswell\" in 2013 but was later disabled due to a bug. \"Broadwell\" CPUs with the bug fix shipped in late 2014.",
+    "created": "2019-01-19T21:28:37",
+    "color": [
+      1,
+      1,
+      0
+    ],
+    "color_name": "Yellow"
+  },
+  {
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      72,
+      332.143
+    ],
+    "prior_outline": "Background: x86 extensions",
+    "text": "user-mode access to FS/GS registers, and TLB tags for non-VM address spaces",
+    "contents": "This is lower in column 1",
+    "created": "2019-01-19T21:28:52",
+    "color": [
+      1,
+      1,
+      0
+    ],
+    "color_name": "Yellow"
+  },
+  {
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      310.981,
+      403.874
+    ],
+    "prior_outline": "Background: x86 extensions",
+    "text": "The jump is due to extensions introduced with the \"Skylake\" microarchitecture",
+    "contents": "This is at the top of column two",
+    "created": "2019-01-19T21:29:06",
+    "color": [
+      1,
+      1,
+      0
+    ],
+    "color_name": "Yellow"
+  },
+  {
+    "type": "Squiggly",
+    "page": 4,
+    "start_xy": [
+      310.601,
+      548.985
+    ],
+    "prior_outline": "Case study: SGX",
+    "text": "Control transfer in x86 is already very complex",
+    "contents": "This is a nit.",
+    "created": "2019-01-19T21:34:31",
+    "color": [
+      1,
+      0,
+      0
+    ],
+    "color_name": "Red"
+  },
+  {
+    "type": "Underline",
+    "page": 4,
+    "start_xy": [
+      310.981,
+      429.423
+    ],
+    "prior_outline": "Case study: SGX",
+    "text": "Besides modifying semantics of all indirect control transfers",
+    "contents": "This is a different nit",
+    "created": "2019-01-19T21:36:51",
+    "color": [
+      1,
+      0,
+      0
+    ],
+    "color_name": "Red"
+  },
+  {
+    "type": "StrikeOut",
+    "page": 4,
+    "start_xy": [
+      310.981,
+      312.019
+    ],
+    "prior_outline": "Implications",
+    "text": "While we may disagree with some of the design choices,",
+    "created": "2019-01-19T21:36:41",
+    "color": [
+      1,
+      0,
+      0
+    ],
+    "color_name": "Red"
+  }
+]

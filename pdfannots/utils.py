@@ -155,6 +155,8 @@ def md_export(annots,template = md_template):
 def image_extract(annotations,pdf_file,location):
     """
     Extract images from PDFs using the criteria from annots json
+
+    If positive, add relative img_path and has_image attribute
     """
     file = pdf_file
     pdf_file = fitz.open(file)
@@ -193,4 +195,7 @@ def image_extract(annotations,pdf_file,location):
 
             img = pdf_page.get_pixmap(clip = clip,dpi = 300)
             img.save(file_export)
+
+            annotation['has_img'] = True
+            annotation['img_path'] = file_export
     pdf_file.close()

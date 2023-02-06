@@ -301,7 +301,8 @@ class Annotation(ObjectWithPos):
             author: typ.Optional[str] = None,
             created: typ.Optional[datetime.datetime] = None,
             color: typ.Optional[tuple] = None,
-            color_name: typ.Optional[str] = None):
+            color_name: typ.Optional[str] = None,
+            rect_coord: typ.Optional[tuple] = None):
 
         # Construct boxes from quadpoints
         boxes = []
@@ -318,6 +319,11 @@ class Annotation(ObjectWithPos):
         # Compute a meaningful position of this annotation on the page
         assert rect or boxes
         (x0, y0, x1, y1) = rect if rect else boxes[0].get_coords()
+
+        x0 = x0/page.mediabox.x1
+        x1 = x1/page.mediabox.x1
+        y0 = y0/page.mediabox.y1
+        y1 = y1/page.mediabox.y1
         # XXX: assume left-to-right top-to-bottom text
         pos = Pos(page, min(x0, x1), max(y0, y1))
         super().__init__(pos)
@@ -334,6 +340,8 @@ class Annotation(ObjectWithPos):
         self.last_charseq = 0
         self.color = color
         self.color_name = color_name
+        if x0 or x1 or x1 or y1: 
+            self.rect_coord = Box(x0,y0,x1,y1).get_coords()
 
     def __repr__(self) -> str:
         return ('<Annotation %s %r%s%s>' %

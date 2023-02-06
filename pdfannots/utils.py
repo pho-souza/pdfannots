@@ -2,6 +2,9 @@ import datetime
 import typing as typ
 import colorsys
 import pathlib
+import os
+import fitz
+import re
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -148,3 +151,46 @@ def md_export(annots,template = md_template):
     retorno = template.render(title = 'Nota titulo',
     anotacoes = annots)
     return retorno
+
+def image_extract(annotations,pdf_file,location):
+    """
+    Extract images from PDFs using the criteria from annots json
+    """
+    file = pdf_file
+    pdf_file = fitz.open(file)
+
+    print(file)
+
+    for annotation in annotations:
+        if 'annot_number' not in locals():
+            annot_number = 0
+        if annotation['type'] == 'Square':
+            annot_number = annot_number + 1
+            page = annotation['page'] - 1
+
+            pdf_page = pdf_file[page]
+
+            user_space = annotation["rect_coord"]
+            # area = pdf_page.get_pixmap(dpi = 300)
+            area = pdf_page.bound()
+            area.x0 = user_space[0]*area[2]
+            area.x1 = user_space[2]*area[2]
+            area.y0 = (1-user_space[3])*area[3]
+            area.y1 = (1-user_space[1])*area[3]
+
+            clip = fitz.Rect(area.tl, area.br)
+
+            print(clip)
+
+            if not os.path.exists(location):
+                os.mkdir(location)
+
+            file = re.sub(".*/","",file)
+            page = page +1
+
+            file_export = location+"/"+file+"_p"+str(page)+'_'+str(annot_number) + ".png"
+            print(pdf_page,' - annotation number: ', annot_number)
+
+            img = pdf_page.get_pixmap(clip = clip,dpi = 300)
+            img.save(file_export)
+    pdf_file.close()

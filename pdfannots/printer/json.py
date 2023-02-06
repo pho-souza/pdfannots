@@ -19,12 +19,16 @@ def annot_to_dict(
         "start_xy": (annot.pos.x, annot.pos.y),
     }
 
+
     outline = doc.nearest_outline(annot.pos)
     if outline:
         result["prior_outline"] = outline.title
 
     if annot.text:
         result['text'] = annot.gettext(remove_hyphens)
+
+    if annot.rect_coord:
+        result['rect_coord'] = annot.rect_coord
 
     if annot.contents:
         result['contents'] = annot.contents

@@ -152,7 +152,7 @@ def md_export(annots,template = md_template):
     anotacoes = annots)
     return retorno
 
-def image_extract(annotations,pdf_file,location):
+def image_extract(annotations,pdf_file,location,folder = "img/"):
     """
     Extract images from PDFs using the criteria from annots json
 
@@ -172,6 +172,10 @@ def image_extract(annotations,pdf_file,location):
 
             pdf_page = pdf_file[page]
 
+            # Remove annotations in the page
+            for annot in pdf_page.annots():
+                pdf_page.delete_annot(annot)
+
             user_space = annotation["rect_coord"]
             # area = pdf_page.get_pixmap(dpi = 300)
             area = pdf_page.bound()
@@ -186,16 +190,30 @@ def image_extract(annotations,pdf_file,location):
 
             if not os.path.exists(location):
                 os.mkdir(location)
+            if not os.path.exists(location+"/"+folder):
+                os.mkdir(location+"/"+folder)
 
             file = re.sub(".*/","",file)
             page = page +1
 
-            file_export = location+"/"+file+"_p"+str(page)+'_'+str(annot_number) + ".png"
+            file_name = file+"_p"+str(page)+'_'+str(annot_number) + ".png"
+
+            file_export = location+"/"+folder+file_name
+            file_export = re.sub("/+","/",file_export)
+
+
             print(pdf_page,' - annotation number: ', annot_number)
 
-            img = pdf_page.get_pixmap(clip = clip,dpi = 300)
+            img_folder = folder +  "/" +file_name
+            img_folder = re.sub("/+","/",img_folder)
+
+            img = pdf_page.get_pixmap(clip = clip,dpi = 300,)
             img.save(file_export)
 
-            annotation['has_img'] = True
-            annotation['img_path'] = file_export
+            if os.path.exists(file_export):
+                annotation['has_img'] = True
+                annotation['img_path'] = img_folder
+            else:
+                annotation['has_img'] = False
+                annotation['img_path'] = ""
     pdf_file.close()

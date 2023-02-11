@@ -22,7 +22,7 @@
 {% if anotacao.type == 'Square' %}
 
 {% if anotacao.has_img %}
-![[{{anotacao.img_path}}]]
+![]({{anotacao.img_path}})
 {% endif %}
 {% elif anotacao.color_name == 'Cyan' %}
 

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {# <link rel="stylesheet" href="template_css.css"> #}
+    <style>
+      {% include 'template_css.css' %}
+    </style>
+</head>
+<body>
+  <pre>
+  {% macro color_type(color) %}
+  {%- if color == "Green" %}
+  <div class='callout_questao'>
+    <h2>Questão</h2>
+    <hr/>
+  {%- elif color == 'Orange' %}
+  <div class='callout_exemplo'>
+    <h2>Exemplo</h2>
+    <hr/>
+
+  {%- elif color == 'Red' %}
+  <div class='callout_atencao'>
+    <h2>Atenção</h2>
+    <hr/>
+
+  {%- endif -%}
+  {% endmacro %}
+  {% set anterior = namespace('') %}
+  {% set anterior.contents = anotacoes[0].contents %}
+  </pre>
+  <article>
+  {%- for anotacao  in anotacoes %}
+    {% if anotacao.type == 'Square' %}
+
+    {% if anotacao.has_img %}
+    <img src="{{anotacao.img_path}}"/>
+    {% endif %}
+    {% elif anotacao.color_name == 'Cyan' %}
+
+    {% if anotacao.contents == "#h1" or anotacao.contents == "#H1" or  anotacao.contents == "H1"%}
+    <h1>{{anotacao.text}}</h1>
+
+    {% elif anotacao.contents == "#h2" or anotacao.contents == "#H2" or  anotacao.contents == "H2" %}
+    <h2>{{anotacao.text}}</h2>
+
+    {% elif anotacao.contents == "#h3" or anotacao.contents == "#H3" or  anotacao.contents == "H3" %}
+    <h3>{{anotacao.text}}</h3>
+
+    {% else %}
+    <h1>{{anotacao.text}}</h1>
+
+    {% endif %}
+    {% elif anotacao.color_name == 'Yellow' %}
+    <p>
+    {% if anotacao.contents == '-' %}
+
+      <ul>
+      <li>
+      {{anotacao.text ~ "\n" }}
+      </li>
+      </ul>
+
+    {%- elif anotacao.contents == '+' and anterior.contents == '+' -%}
+    {{- " " ~ anotacao.text ~ " " -}}
+    {%- elif anterior.contents == '+' -%}
+    {% if anotacao.contents and anotacao.contents != "+" %}
+    {{- "> " ~ anotacao.text}}
+    {{"> - " ~ anotacao.contents}}
+    {% else %}
+    {{- " " ~ anotacao.text}}
+    {% endif %}
+    {% elif anotacao.contents == '+' -%}
+
+    {{anotacao.text}} 
+    {%- elif anotacao.contents %}
+
+    {{anotacao.text}}
+    > {{anotacao.contents}}
+
+    {% else %}
+
+    {{anotacao.text}}
+    </p>
+    {% endif %}
+    {# Casos de callout #}
+    {% else %}
+    <p>
+    {%- if anotacao.contents == '+' and anterior.contents == '+' -%}
+    <ul>
+      <il>{{ anotacao.text -}}</il
+    </ul>
+    {%- elif anterior.contents == '+' -%}
+    {% if anotacao.contents and anotacao.contents != "+" %}
+    {{- " " ~ anotacao.text}}
+    <hr>
+    <p>{{anotacao.contents}}
+      </p>
+    {% else %}
+    {{- " " ~ anotacao.text}}
+    {% endif %}
+    {% elif anotacao.contents == '+' -%}
+    {{color_type(anotacao.color_name)}}
+    > {{anotacao.text}} 
+
+    {%- elif anotacao.contents %}
+    {{color_type(anotacao.color_name)}}
+    {{anotacao.text}}
+    <ul>
+      <li>
+    {{anotacao.contents}}
+      </li>
+    </ul>
+    {% else %}
+    {{color_type(anotacao.color_name)}}
+    {{anotacao.text}}
+
+
+    {% endif %}
+    </div>
+    {% endif %}
+    {%- if anotacao.contents %}
+    {%- set anterior.contents = anotacao.contents -%}
+    {%- else -%}
+    {%- set anterior.contents = '' -%}
+    {% endif -%}
+    </p>
+  {% endfor -%}'
+
+
+</article>
+
+</body>
+</html>

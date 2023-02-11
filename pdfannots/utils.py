@@ -31,7 +31,9 @@ TEMPLATE_ENVIRONMENT = Environment(
     lstrip_blocks=False
 )
 
-md_template = TEMPLATE_ENVIRONMENT.get_template("template2.md")
+DEFAULT_TEMPLATE = "template_default.md"
+
+
 
 
 def cleanup_text(text: str) -> str:
@@ -147,8 +149,9 @@ def colors_names(colors_hls: tuple) -> str:
             return "Magenta"
         return "Red"
         
-def md_export(annots,template = md_template):
-    retorno = template.render(title = 'Nota titulo',
+def md_export(annots,template = DEFAULT_TEMPLATE):
+    md_template = TEMPLATE_ENVIRONMENT.get_template(template)
+    retorno = md_template.render(title = 'Nota titulo',
     anotacoes = annots)
     return retorno
 

@@ -189,6 +189,7 @@ class Pos:
                     (sx, sy) = self.page.mediabox.closest_point((self.x, self.y))
                     (ox, oy) = self.page.mediabox.closest_point((other.x, other.y))
                     colwidth = self.page.mediabox.get_width() / self.page.fixed_columns
+                    print("\n\n\n==== Tamanho coluna: ", colwidth)
                     self_col = (sx - self.page.mediabox.x0) // colwidth
                     other_col = (ox - self.page.mediabox.x0) // colwidth
                     return self_col < other_col or (self_col == other_col and sy > oy)

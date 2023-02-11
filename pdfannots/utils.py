@@ -5,6 +5,7 @@ import pathlib
 import os
 import fitz
 import re
+import operator
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -220,3 +221,98 @@ def image_extract(annotations,pdf_file,location,folder = "img/"):
                 annotation['has_img'] = False
                 annotation['img_path'] = ""
     pdf_file.close()
+
+
+def annots_reorder_custom(annotations: dict,criteria = [], ordenation = "asc") -> dict:
+    """
+    This function reordenate the annotations based on criteria order
+    """
+    criteria = criteria
+    validate_criteria = ["page","type","start_xy","author","created"]
+    for i in criteria:
+        if i not in validate_criteria:
+            print(i," criteria is not valid! Please use: ", str(validate_criteria))
+            print(criteria)
+            return annotations
+    
+    # if isinstance(ordenation,list) and len(ordenation) != len(criteria):
+    #     print("Ordenation not valid! Please use a list of" + len(criteria) + " strings, or a simple string.")
+    #     return annotations
+
+    temp = annotations.copy()
+
+    temp = sorted(temp,key=operator.itemgetter(*criteria))
+
+    return temp
+
+
+def annots_reorder_columns(annotations: dict,columns = 1,tolerance = 0.1) -> dict:
+    """
+    This function reordenate the annotations based on: page, columns and vertical position
+    """
+    temp = []
+    # temp2 = []
+    
+    # Columns size
+    columns_x = []
+    for i in range(0,columns+1):
+        col_widget = (1/columns) * i
+        columns_x.append(col_widget)
+    
+    # Get all values
+    pages = []
+    rect_coord = []
+    index = []
+    index_init = 0
+    for annotation in annotations:
+        index.append(index_init)
+        pages.append(annotation['page'])
+        rect_coord.append(annotation['rect_coord'])
+        index_init = index_init + 1
+        annotation['index'] = index_init
+    
+    pages = set(pages)
+    annotation_index_x0 = [-1]
+    annotation_index_x1 = [-1]
+    # for page in pages:
+    #     page_init = len(temp)
+    for column in range(1,len(columns_x)):
+        for annotation in annotations:
+            # if  index not in annotation_index:
+            index = annotation['index']
+            x0 = annotation['rect_coord'][0]
+            x1 = annotation['rect_coord'][2]
+            y0 = annotation['rect_coord'][1]
+            y1 = annotation['rect_coord'][3]
+            annotation["y"] = 1-y0
+            column_min = columns_x[column-1] - tolerance
+            column_max = columns_x[column] + tolerance
+            print("\n\n\nColumn: ",column,"\n Min: ",column_min,"\nMax: ",column_max)
+            if x0 >= column_min and x0 < column_max and index not in annotation_index_x0:
+                annotation['column'] = [column]
+                annotation_index_x0.append(index)
+            if x1 >= column_min and x1 < column_max and index not in annotation_index_x1:
+                    annotation['column'].append(column)
+                    annotation_index_x1.append(index)
+
+    for annotation in annotations:
+        if annotation["column"][0] == annotation["column"][1]:
+            annotation["column"] = annotation["column"][0]
+        elif annotation["column"][0] == 1:
+            annotation["column"] = 1.0
+        else:
+            annotation["column"] = max(annotation["column"])
+
+    
+
+    
+    temp = annotations.copy()
+    
+    temp = sorted(temp,key=operator.itemgetter('page', 'column',"y"))
+                    
+    
+    return temp
+    
+
+
+    

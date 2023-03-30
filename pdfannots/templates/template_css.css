@@ -1,19 +1,27 @@
 .callout_questao{
-    background-color: red;
+    background-color: #85e795;
+    border-radius: 1em;
+    padding: 1em;
 }
 .callout_atencao{
-    background-color: chartreuse;
+    background-color: peru;
+    padding: 1em;
+    border-radius: 1em;
 }
 .callout_exemplo{
-    background-color: burlywood;
+    background-color: greenyellow;
+    border-radius: 1em;
+    padding: 1em;
 }
 body{
     margin-left: 1em;
+    background-color: #e2e2e2;
+    font-family: 'Garamond', Times, serif;
 }
 article{
     margin: auto;
     width: 50%;
-    border: 3px solid green;
+    border: 3px solid grey;
     padding: 10px;
     text-align:justify;
 }
@@ -22,6 +30,11 @@ img{
     width: 100%;
 }
 
-h1{
+h1, h2, h3{
     color:blue;
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+}
+img{
+    border-radius: 0.5em;
 }

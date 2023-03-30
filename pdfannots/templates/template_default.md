@@ -23,6 +23,7 @@
 
 {% if anotacao.has_img %}
 ![]({{anotacao.img_path}})
+
 {% endif %}
 {% elif anotacao.color_name == 'Cyan' %}
 
@@ -48,7 +49,7 @@
 {%- elif anterior.contents == '+' -%}
 {% if anotacao.contents and anotacao.contents != "+" %}
 {{- "> " ~ anotacao.text}}
-{{"> - " ~ anotacao.contents}}
+<li>{{"> - " ~ anotacao.contents}}</li>
 {% else %}
 {{- " " ~ anotacao.text}}
 {% endif %}
@@ -58,7 +59,7 @@
 {%- elif anotacao.contents %}
 
 {{anotacao.text}}
-> {{anotacao.contents}}
+<li>{{anotacao.contents}}</li>
 
 {% else %}
 

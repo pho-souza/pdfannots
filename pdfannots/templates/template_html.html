@@ -68,8 +68,8 @@
     {{- " " ~ anotacao.text ~ " " -}}
     {%- elif anterior.contents == '+' -%}
     {% if anotacao.contents and anotacao.contents != "+" %}
-    {{- "> " ~ anotacao.text}}
-    {{"> - " ~ anotacao.contents}}
+    {{- " " ~ anotacao.text}}
+    <ul><li>{{" " ~ anotacao.contents}}</li></ul>
     {% else %}
     {{- " " ~ anotacao.text}}
     {% endif %}
@@ -79,7 +79,7 @@
     {%- elif anotacao.contents %}
 
     {{anotacao.text}}
-    > {{anotacao.contents}}
+   <ul><li>{{anotacao.contents}}</li></ul>
 
     {% else %}
 

@@ -165,7 +165,7 @@ def image_extract(annotations,pdf_file,location,folder = "img/"):
     file = pdf_file
     pdf_file = fitz.open(file)
 
-    print(file)
+    # print(file)
 
     for annotation in annotations:
         if 'annot_number' not in locals():
@@ -190,7 +190,7 @@ def image_extract(annotations,pdf_file,location,folder = "img/"):
 
             clip = fitz.Rect(area.tl, area.br)
 
-            print(clip)
+            # print(clip)
 
             if not os.path.exists(location):
                 os.mkdir(location)
@@ -206,7 +206,7 @@ def image_extract(annotations,pdf_file,location,folder = "img/"):
             file_export = re.sub("/+","/",file_export)
 
 
-            print(pdf_page,' - annotation number: ', annot_number)
+            # print(pdf_page,' - annotation number: ', annot_number)
 
             img_folder = folder +  "/" +file_name
             img_folder = re.sub("/+","/",img_folder)
@@ -287,7 +287,7 @@ def annots_reorder_columns(annotations: dict,columns = 1,tolerance = 0.1) -> dic
             annotation["y"] = 1-y0
             column_min = columns_x[column-1] - tolerance
             column_max = columns_x[column] + tolerance
-            print("\n\n\nColumn: ",column,"\n Min: ",column_min,"\nMax: ",column_max)
+            # print("\n\n\nColumn: ",column,"\n Min: ",column_min,"\nMax: ",column_max)
             if x0 >= column_min and x0 < column_max and index not in annotation_index_x0:
                 annotation['column'] = [column]
                 annotation_index_x0.append(index)

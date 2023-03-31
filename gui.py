@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinterdnd2 import DND_FILES, TkinterDnD
 import tkinter.ttk as ttk
 import pdfannots.gui_classes as gui
 import pdfannots.utils as utils
@@ -45,11 +46,11 @@ def execute_pdf_annot(pdf_location = ['tests/periodo_simples.pdf'],export = 'out
     
 
 
-
-
 def gui_interface():
 
-    root = tk.Tk()
+    # root = tk.Tk()
+
+    root = TkinterDnD.Tk()
 
     root.geometry('800x800')
 
@@ -72,6 +73,11 @@ def gui_interface():
     load_pdf = gui.gui_pdf_load(notebook)
 
     load_pdf.set_size(width=root.winfo_screenmmwidth(),height=root.winfo_screenmmheight())
+
+    # load_pdf.file_list.drop_target_register(DND_FILES)
+    # load_pdf.file_list.dnd_bind('<<Drop>>', lambda e: load_pdf.file_list.insert(tk.END, e.data.sub('\\{','').strip('}')))
+
+    
 
 
     root.title = "AAA"
